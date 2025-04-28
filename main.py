@@ -11,6 +11,21 @@ def Clean():
 Clean()
 
 login_attemps = 3
+def UpdateJSON():
+  with open ("user-data.json", "w") as file:
+    json.dump(user_data, file, indent=2)
+    
+def CreateUser(user, nickname, hash):
+  user_data[user] = {
+    "hash-key": hash,
+    "balance": 0.0,
+    "nickname": nickname
+  }
+  
+  UpdateJSON()
+    
+  return print("Usuário criado com sucesso!")
+
 def Login(user, password):
   
   hash_key_password = hl.sha256(password.encode()).hexdigest()
@@ -30,8 +45,7 @@ def CheckBalance(user):
 
 def DepositMoney(amount):
   user_data[user]["balance"] += amount
-  with open ("user-data.json", "w") as file:
-    json.dump(user_data, file, indent=2)
+  UpdateJSON()
     
   return print(f"O valor de R${amount} foi inserido com sucesso!")
 
@@ -43,8 +57,7 @@ def DrawMoney(amount):
   else:
     user_data[user]["balance"] -= amount
     
-    with open ("user-data.json", "w") as file:
-      json.dump(user_data, file, indent=2)
+    UpdateJSON()
       
     return print(f"Você sacou R${amount} da sua conta.")
 
@@ -56,12 +69,35 @@ def TransferMoney(amount, receiver):
     user_data[user]["balance"] -= amount
     user_data[receiver]["balance"] += amount
     
-    with open ("user-data.json", "w") as file:
-      json.dump(user_data, file, indent=2)
+    UpdateJSON()
     
     print(f"O saldo de R${amount} foi transferido para {user_data[receiver]["nickname"]}")
 
 print('💵 Seja bem-vindo ao ATM-Python 💵')
+
+while True:
+  main_options = int(input("""O que você deseja fazer? 
+1 - Criar um novo usuário
+2 - Fazer login em uma conta existente"""))
+  
+  if main_options == 1:
+    nickname = str(input("Por favor, digite seu nome e sobrenome: "))
+    user = str(input("Por favor, digite um usuário: "))
+    password = str(input("Por favor, digite uma senha: "))
+    password_confirmation = str(input("Por favor, confirme a sua senha: "))
+    
+    if password == password_confirmation:
+      password = hl.sha256(password.encode()).hexdigest()
+      CreateUser(user, nickname, password)
+      Clean()
+      continue
+    
+    else:
+      print("Você digitou senhas diferentes, por favor, tente novamente")
+      continue
+      
+  elif main_options == 2:
+    break 
 
 while True: # verifying login
   user = str(input("Por favor, digite o seu usuário: "))

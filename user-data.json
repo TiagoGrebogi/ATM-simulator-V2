@@ -8,5 +8,10 @@
     "hash-key": "ad913fe2c78a3cca6bf8b80888532b33e30e819dff4ee54a62bd0876fc6dc87a",
     "balance": 0.0,
     "nickname": "Melissa Mendes"
+  },
+  "charles-mg": {
+    "hash-key": "10fe82adb964fa73c3c60be251181c421193f56ae01ba671974d82365a08a410",
+    "balance": 1150.0,
+    "nickname": "Charles Mendes"
   }
 }
