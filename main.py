@@ -78,18 +78,20 @@ print('💵 Seja bem-vindo ao ATM-Python 💵')
 while True:
   main_options = int(input("""O que você deseja fazer? 
 1 - Criar um novo usuário
-2 - Fazer login em uma conta existente"""))
+2 - Fazer login em uma conta existente
+
+"""))
   
   if main_options == 1:
     nickname = str(input("Por favor, digite seu nome e sobrenome: "))
     user = str(input("Por favor, digite um usuário: "))
     password = str(input("Por favor, digite uma senha: "))
     password_confirmation = str(input("Por favor, confirme a sua senha: "))
+    Clean()
     
     if password == password_confirmation:
       password = hl.sha256(password.encode()).hexdigest()
       CreateUser(user, nickname, password)
-      Clean()
       continue
     
     else:
@@ -97,7 +99,12 @@ while True:
       continue
       
   elif main_options == 2:
-    break 
+    break
+  
+  else:
+    Clean()
+    print("Opção inválida. Digite novamente uma opção.")
+    continue
 
 while True: # verifying login
   user = str(input("Por favor, digite o seu usuário: "))
